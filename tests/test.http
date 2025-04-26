@@ -1,0 +1,14 @@
+
+GET http://localhost/api/users
+
+###
+
+POST http://localhost/api/users
+Content-Type: application/json
+
+{
+    "userID": "Manfred",
+    "firstName": "Manfred",
+    "lastName": "Mustermann",
+    "password": "asdf"
+}
