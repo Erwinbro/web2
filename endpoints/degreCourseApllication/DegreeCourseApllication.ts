@@ -9,14 +9,14 @@ export interface IDegreeCourseApplication {
 }
 
 const degreeCourseApplicationSchema = new Schema<IDegreeCourseApplication>({
-  applicantUserID: { type: String, required: true }, // Korrigiert
+  applicantUserID: { type: String, required: true }, 
   degreeCourseID: { type: String, required: true },
-  targetPeriodYear: { type: Number, required: true }, // Korrigiert
+  targetPeriodYear: { type: Number, required: true }, 
   targetPeriodShortName: { type: String, required: true, enum: ['WiSe', 'SoSe'] },
 });
 
 degreeCourseApplicationSchema.index(
-  { applicantUserID: 1, degreeCourseID: 1, targetPeriodShortName: 1, targetPeriodYear: 1 }, // Korrigiert
+  { applicantUserID: 1, degreeCourseID: 1, targetPeriodShortName: 1, targetPeriodYear: 1 }, 
   { unique: true }
 );
 

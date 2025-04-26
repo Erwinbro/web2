@@ -16,7 +16,7 @@ const port = process.env.PORT;
 
 app.use(bodyParser.json())
 
-app.get('/api/users', async (req: any, res: any) => {
+app.get('/api/publicUsers', async (req: any, res: any) => {
 
     if (req) {
         console.log("Got requets")
@@ -35,15 +35,27 @@ app.get('/api/users', async (req: any, res: any) => {
     res.send(Object.values(resultUsers));
 });
 
-app.post('/api/users', async (req: any, res: any) => {
-    if (req) {
+app.post('/api/publicUsers', async (req: any, res: any) => {
+    if (!req.body.userID) {
+        res.status(400).send("Missing 'userID' field in request body");
+        return;
+    }
+    try {
+        if (req) {
         console.log("Want to create new user with data: " + JSON.stringify(req.body))
     }
     await createUser(req.body);
     res.send("Habe user angelegt");
+    } catch (error) {
+        if(error instanceof Error && error.message.includes("already exists")) {
+            res.status(400).send({"error":'already exists'});
+        }
+        
+    }
+    
 });
 
-app.get('/api/users/:id', async (req: any, res: any) => {
+app.get('/api/publicUsers/:id', async (req: any, res: any) => {
     if (req) {
         console.log("Want to get user with id: " + req.params.id)
     }
@@ -53,29 +65,29 @@ app.get('/api/users/:id', async (req: any, res: any) => {
     if (user) {
         res.send(user);
     } else {
-        res.status(404).send('User not found');
+        res.status(404).send({"error":'User not found'});
     }
 });
 
-app.put('/api/users/:id', async (req: any, res: any) => {
+app.put('/api/publicUsers/:id', async (req: any, res: any) => {
     console.log("Want to update user with id: " + req.params.id);
     const updatedUser = await updateUser(req.params.id, req.body);
 
     if (updatedUser) {
         res.send(updatedUser);
     } else {
-        res.status(404).send('User not found');
+        res.status(404).send({"error":'User not found'});
     }
 });
 
-app.delete('/api/users/:id', async (req: any, res: any) => {
+app.delete('/api/publicUsers/:id', async (req: any, res: any) => {
     console.log("Want to delete user with id: " + req.params.id);
     const deletedUser = await deleteUser(req.params.id);
 
     if (deletedUser) {
-        res.send(deletedUser);
+        res.status(200).send();
     } else {
-        res.status(404).send('User not found');
+        res.status(404).send({"error":'User not found'});
     }
 });
 
