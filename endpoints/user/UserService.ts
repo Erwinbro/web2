@@ -25,7 +25,8 @@ export async function createUser(userData: any) {
         if (existingUser) {
             throw new Error(`User with userID ${userData.userID} already exists.`);
         }
-        await user.save();
+        const created = await user.save();
+        return created;
     } else {
         console.log("No user data provided");
     }

@@ -44,8 +44,8 @@ app.post('/api/publicUsers', async (req: any, res: any) => {
         if (req) {
         console.log("Want to create new user with data: " + JSON.stringify(req.body))
     }
-    await createUser(req.body);
-    res.send("Habe user angelegt");
+    const user = await createUser(req.body);
+    res.send(user);
     } catch (error) {
         if(error instanceof Error && error.message.includes("already exists")) {
             res.status(400).send({"error":'already exists'});

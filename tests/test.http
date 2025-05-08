@@ -12,3 +12,13 @@ Content-Type: application/json
     "lastName": "Mustermann",
     "password": "asdf"
 }
+###
+POST http://localhost/api/publicUsers
+Content-Type: application/json
+
+{
+    "userID": "Manfred2",
+    "firstName": "Manfred",
+    "lastName": "Mustermann",
+    "password": "asdf"
+}
